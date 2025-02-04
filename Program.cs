@@ -121,6 +121,13 @@ namespace TextRPG
             info.desc = "스파르타 전사들이 사용했다는 전설의 갑옷입니다.";
             items.Add(new Item(info));
 
+            info.type = Item.Type.ARMOR;
+            info.name = "사기 갑옷";
+            info.ability = 99;
+            info.gold = 99999;
+            info.desc = "스파르타 전사들이 사용했다는 전설의 갑옷입니다.";
+            items.Add(new Item(info));
+
             info.type = Item.Type.WEAPON;
             info.name = "낡은 검";
             info.ability = 2;
@@ -140,6 +147,13 @@ namespace TextRPG
             info.ability = 7;
             info.gold = 3500;
             info.desc = "스파르타의 전사들이 사용했다는 전설의 창입니다.";
+            items.Add(new Item(info));
+
+            info.type = Item.Type.WEAPON;
+            info.name = "사기 검";
+            info.ability = 99;
+            info.gold = 99999;
+            info.desc = "쉽게 볼 수 있는 낡은 검입니다.";
             items.Add(new Item(info));
             #endregion
         }
@@ -748,7 +762,8 @@ namespace TextRPG
             // 데미지
             int damage = rand.Next(20, 36) + (int)(spec - player.GetDefense());
             // 추가 보상
-            float rewardRatio = (rand.NextSingle() * player.GetAttack() + player.GetAttack()) / 100f;
+            //float rewardRatio = (rand.NextSingle() * player.GetAttack() + player.GetAttack()) / 100f;
+            float rewardRatio = rand.Next((int)player.GetAttack(), (int)player.GetAttack() * 2) / 100f;
             int addReward = (int)(reward * rewardRatio);
             // 던전 클리어
             DungeonClear(damage, reward, addReward, dungeonName);
@@ -758,8 +773,10 @@ namespace TextRPG
         {
             int lastHealth = player.health;
             int lastGold = player.gold;
-            
+
             // 플레이어 체력 감소
+            if (damage < 0)
+                damage = 0;
             player.health -= damage;
 
             Console.Clear();
